@@ -2,6 +2,8 @@ package flowvoy
 
 import (
 	"github.com/gin-gonic/gin"
+	"io"
+	"net/http"
 )
 
 func main() {
@@ -16,7 +18,18 @@ func main() {
 	})
 
 	r.GET("/data", func(c *gin.Context) {
-		// TODO: Fetch data from Envoy and return it as JSON
+		resp, err := http.Get("http://localhost:19000/stats")
+		if err != nil {
+			//handle error
+		}
+		defer resp.Body.Close()
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			//handle error
+		}
+		c.JSON(200, gin.H{
+			"data": string(body),
+		})
 	})
 
 	r.Run()
