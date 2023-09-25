@@ -18,7 +18,7 @@ func main() {
 	})
 
 	r.GET("/data", func(c *gin.Context) {
-		resp, err := http.Get("http://localhost:19000/stats")
+		resp, err := http.Get("http://localhost:19000/stats?filter=&format=json")
 		if err != nil {
 			//handle error
 		}
